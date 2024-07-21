@@ -4,6 +4,7 @@ metadata:
   generateName: dag-diamond-
   annotations:
     argocd.argoproj.io/hook: PostSync
+  namespace: argo
 spec:
   entrypoint: diamond
   templates:
