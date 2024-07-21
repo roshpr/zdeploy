@@ -8,6 +8,6 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: argocd/group-a
+    path: argocd/group-a/configs
     repoURL: https://github.com/roshpr/zdeploy.git
     targetRevision: HEAD
