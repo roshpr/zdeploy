@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: us-east-2-cdk-cp-12412314-
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/hook: PostSync
+spec:
+  entrypoint: ztg-deploy
+  serviceAccountName: argo-ops-admin
+  templates:
+  - name: ztg-deploy
+    dag:
+      tasks:
+        - name: ztg-config-validation
+          template: print-message
+          arguments:
+            parameters: [ { name: message, value: 'Config validated' } ]
+        - name: ztg-pre-hook-1
+          template: print-message
+          depends: "ztg-config-validation"
+          arguments:
+            parameters: [ { name: message, value: 'Prehook 1 completed' } ]
+        - name: ztg-pre-hook-2
+          template: print-message
+          depends: "ztg-config-validation"
+          arguments:
+            parameters: [ { name: message, value: 'CDK zip downloaded' } ]
+        - name: cdk-deployer
+          template: cdk-deploy
+          depends: "ztg-pre-hook-1 && ztg-pre-hook-2"
+        - name: ztg-posk-hook
+          template: gen-random-int
+          depends: "cdk-deployer"
+
+  - name: cdk-deploy
+    script:
+      image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
+      command: [bash]
+      source: |
+        cat /etc/cdk/config/config.yaml
+
+  - name: gen-random-int
+    script:
+      image: debian:9.4
+      command: [bash]
+      source: |
+        cat /dev/urandom | od -N2 -An -i | awk -v f=1 -v r=100 '{printf "%i\n", f + r * $1 / 65536}'
+
+  - name: print-message
+    inputs:
+      parameters:
+        - name: message
+    container:
+      image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
+      command: [bash]
+      source: |
+        echo "{{inputs.parameters.message}}"

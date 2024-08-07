@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ztw-cdk-deploy
+spec:
+  containers:
+    - name: cdk-container
+      image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
+      args:
+      - /bin/sh
+      - -c
+      - ls -la /etc/config; cat /etc/config/cdk.properties; cat /etc/config/settings.properties; sleep 10000;
+      envFrom:
+      - configMapRef:
+          name: us-east-1-settings
+      volumeMounts:
+      - name: config-volume
+        mountPath: /etc/config
+  volumes:
+    - name: config-volume
+      configMap:
+        name: us-east-1
+        items:
+        - key: sample.properties
+          path: cdk.properties
+        - key: ui.properties
+          path: settings.properties

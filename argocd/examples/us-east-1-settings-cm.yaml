@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: us-east-1-settings
+  namespace: ztg
+data:
+  ACCOUNT_NUM: "583879484753"
+  REGION_NAME: "us-east-1"
+  DEPLOY_ROLE_TAG_US_EAST1: "true"
