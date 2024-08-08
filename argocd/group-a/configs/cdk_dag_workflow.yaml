@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: us-east-2-cdk-cp-12412314-
+  namespace: argo
   annotations:
     argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/hook: PostSync

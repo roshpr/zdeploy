@@ -41,6 +41,6 @@ data:
 kind: ConfigMap
 metadata:
   name: us-east-2-cdk-cp-12412314
-  namespace: ztg-deploy
+  namespace: argo
   annotations:
     argocd.argoproj.io/sync-wave: "1"

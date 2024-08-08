@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: us-east-1
-  namespace: ztg
+  namespace: argo
 data:
   sample.properties: |
     enemies=aliens
