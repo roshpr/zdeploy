@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/hook: PostSync
 spec:
   entrypoint: ztg-deploy
-  serviceAccountName: argo/argo-ops-admin
+  serviceAccountName: argo-ops-admin
   templates:
   - name: ztg-deploy
     dag:
