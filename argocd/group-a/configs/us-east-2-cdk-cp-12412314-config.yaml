@@ -38,6 +38,7 @@ data:
             - ap-southeast-1
             - ap-south-1
             - ap-southeast-2
+            - west-1
 kind: ConfigMap
 metadata:
   name: us-east-2-cdk-cp-12412314
