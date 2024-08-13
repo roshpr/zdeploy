@@ -13,29 +13,64 @@ spec:
   - name: ztg-deploy
     dag:
       tasks:
-        - name: validate-config
+        - name: ap-south-2
           template: print-message
           arguments:
+            parameters: [ { name: message, value: 'deploy AP south 2' } ]
+        - name: validate-config-0
+          template: print-message
+          depends: "ap-south-2"
+          arguments:
             parameters: [ { name: message, value: 'Config validated' } ]
-        - name: download-cdk-zip
+        - name: download-cdk-zip-0
           template: print-message
           depends: "validate-config"
           arguments:
             parameters: [ { name: message, value: 'CDK zip downloaded' } ]
-        - name: prepare-environment
+        - name: prepare-environment-0
           template: print-message
           depends: "validate-config"
           arguments:
             parameters: [ { name: message, value: 'Preparing the setup.\n Successfully completed the env setup.' } ]
-        - name: cdk-deployer
+        - name: cdk-deployer-0
           template: cdk-deploy
           depends: "download-cdk-zip && prepare-environment"
           arguments:
             parameters: [ { name: cmname, value: 'asia-south-093429260' } ]
-        - name: test-application
+        - name: test-application-0
           template: gen-random-int
           depends: "cdk-deployer"
-        - name: send-notification
+        - name: send-notification-0
+          template: gen-random-int
+          depends: "cdk-deployer"
+        - name: ap-southeast-0
+          template: print-message
+          arguments:
+            parameters: [ { name: message, value: 'deploy AP south east 1' } ]
+        - name: validate-config-1
+          template: print-message
+          depends: "ap-southeast-1"
+          arguments:
+            parameters: [ { name: message, value: 'Config validated' } ]
+        - name: download-cdk-zip-1
+          template: print-message
+          depends: "validate-config"
+          arguments:
+            parameters: [ { name: message, value: 'CDK zip downloaded' } ]
+        - name: prepare-environment-1
+          template: print-message
+          depends: "validate-config"
+          arguments:
+            parameters: [ { name: message, value: 'Preparing the setup.\n Successfully completed the env setup.' } ]
+        - name: cdk-deployer-1
+          template: cdk-deploy
+          depends: "download-cdk-zip && prepare-environment"
+          arguments:
+            parameters: [ { name: cmname, value: 'asia-south-093429260' } ]
+        - name: test-application-1
+          template: gen-random-int
+          depends: "cdk-deployer"
+        - name: send-notification-1
           template: gen-random-int
           depends: "cdk-deployer"
   - name: cdk-deploy
