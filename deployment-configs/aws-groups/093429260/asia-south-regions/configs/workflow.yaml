@@ -43,10 +43,6 @@ spec:
         - name: send-notification-0
           template: gen-random-int
           depends: "cdk-deployer-0"
-        - name: ap-southeast-0
-          template: print-message
-          arguments:
-            parameters: [ { name: message, value: 'deploy AP south east 1' } ]
         - name: ap-southeast-1
           template: print-message
           arguments:
