@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: asia-south-093429260
+  name: settings-asia-south-093429260
   namespace: argo
 data:
   sample.properties: |
