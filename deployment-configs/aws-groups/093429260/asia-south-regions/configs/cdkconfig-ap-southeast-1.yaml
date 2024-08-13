@@ -5,8 +5,8 @@ data:
     Description: "This is the configuration of the Discovery Service"
     Environment:
       Type:  DEV    # DEV, PROD
-      Account: '369324062007'
-      Region: 'eu-central-1'
+      Account: '093529260'
+      Region: 'ap-southeast-1'
       LogLevel: DEBUG
       LogRetention: ONE_WEEK
       ZSClouds:
@@ -19,15 +19,15 @@ data:
           - ec@ler.com
 
     IntegrationServices:
-      - Account: '369324062007'
+      - Account: '093529260'
         Name: Unknown
         TrustedRole : "arn:aws:iam::xxx:role/TagDiscoveryRole"
         ## Need to add the base URL v1/discovery
         GlobalDb:
           MgmtRegion: us-east-1
-          NameInfo: "GlobalInfoStack-CfnGlobalTable-YJO8P36HF40E"
-          NameCerts: "GlobalInfoStack-CfnGlobalCertsTable-50ACS0C9F3RS"
-          NameTenantConfig: "GlobalInfoStack-GlobalTenantConfig-1PZYO3RBFVG0D"
+          NameInfo: "GlobalInfoStack-CfnGlobalTable-YJO8P3"
+          NameCerts: "GlobalInfoStack-CfnGlobalCertsTable-50ACS"
+          NameTenantConfig: "GlobalInfoStack-GlobalTenantConfig-1PZYO3"
           Region:
             - us-east-1
             - us-east-2
@@ -41,7 +41,7 @@ data:
             - west-1
 kind: ConfigMap
 metadata:
-  name: us-east-2-cdk-cp-12412314
+  name: cdkconfig-apsoutheast1-093429260
   namespace: argo
   annotations:
     argocd.argoproj.io/sync-wave: "1"

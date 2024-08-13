@@ -1,0 +1,77 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: asia-south-093429260
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/hook: PostSync
+spec:
+  entrypoint: ztg-deploy
+  serviceAccountName: argo-ops-admin
+#  volumes:
+#    - name: config-volume
+#      configMap:
+#        name: cdkconfig-apsouth2-093429260
+#        items:
+#        - key: sample.properties
+#          path: cdk.properties
+  templates:
+  - name: ztg-deploy
+    dag:
+      tasks:
+        - name: validate-config
+          template: print-message
+          arguments:
+            parameters: [ { name: message, value: 'Config validated' } ]
+        - name: download-cdk-zip
+          template: print-message
+          depends: "validate-config"
+          arguments:
+            parameters: [ { name: message, value: 'CDK zip downloaded' } ]
+        - name: prepare-environment
+          template: print-message
+          depends: "validate-config"
+          arguments:
+            parameters: [ { name: message, value: 'Preparing the setup.\n Successfully completed the env setup.' } ]
+        - name: cdk-deployer
+          template: cdk-deploy
+          depends: "download-cdk-zip && prepare-environment"
+          arguments:
+            parameters: [ { name: cmname, value: 'asia-south-093429260' } ]
+        - name: test-application
+          template: gen-random-int
+          depends: "cdk-deployer"
+        - name: send-notification
+          template: gen-random-int
+          depends: "cdk-deployer"
+
+  - name: cdk-deploy
+    inputs:
+      parameters:
+        - name: cmname
+    script:
+      image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
+      command: [bash]
+      source: |
+        cat /etc/cdk/config/config.yaml
+      envFrom:
+        configMapRef:
+          name: {{inputs.parameters.cmname}}
+
+  - name: gen-random-int
+    script:
+      image: debian:9.4
+      command: [bash]
+      source: |
+        cat /dev/urandom | od -N2 -An -i | awk -v f=1 -v r=100 '{printf "%i\n", f + r * $1 / 65536}'
+
+  - name: print-message
+    inputs:
+      parameters:
+        - name: message
+    container:
+      image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
+      command: [bash]
+      source: |
+        echo "{{inputs.parameters.message}}"

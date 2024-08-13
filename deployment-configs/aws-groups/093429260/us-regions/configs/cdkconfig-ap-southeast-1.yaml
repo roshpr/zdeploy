@@ -1,0 +1,47 @@
+apiVersion: v1
+data:
+  config.yaml: |
+    Version: "0.2.0"
+    Description: "This is the configuration of the Discovery Service"
+    Environment:
+      Type:  DEV    # DEV, PROD
+      Account: '093529260'
+      Region: 'ap-southeast-1'
+      LogLevel: DEBUG
+      LogRetention: ONE_WEEK
+      ZSClouds:
+        # - "zspreview"
+        - "zsdevel"
+      Alerts:
+        SlackWebhook: https://hooks.slack.com/services/XXX/XXX/XXX
+        Email:
+          - rwalla@ler.com
+          - ec@ler.com
+
+    IntegrationServices:
+      - Account: '093529260'
+        Name: Unknown
+        TrustedRole : "arn:aws:iam::xxx:role/TagDiscoveryRole"
+        ## Need to add the base URL v1/discovery
+        GlobalDb:
+          MgmtRegion: us-east-1
+          NameInfo: "GlobalInfoStack-CfnGlobalTable-YJO8P3"
+          NameCerts: "GlobalInfoStack-CfnGlobalCertsTable-50ACS"
+          NameTenantConfig: "GlobalInfoStack-GlobalTenantConfig-1PZYO3"
+          Region:
+            - us-east-1
+            - us-east-2
+            - us-west-1
+            - us-west-2
+            - eu-central-1
+            - eu-west-1
+            - ap-southeast-1
+            - ap-south-1
+            - ap-southeast-2
+            - west-1
+kind: ConfigMap
+metadata:
+  name: cdkconfig-apsoutheast1-093429260
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
