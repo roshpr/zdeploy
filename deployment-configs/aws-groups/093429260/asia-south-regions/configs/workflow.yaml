@@ -47,6 +47,10 @@ spec:
           template: print-message
           arguments:
             parameters: [ { name: message, value: 'deploy AP south east 1' } ]
+        - name: ap-southeast-1
+          template: print-message
+          arguments:
+            parameters: [ { name: message, value: 'deploy AP south 2' } ]
         - name: validate-config-1
           template: print-message
           depends: "ap-southeast-1"
