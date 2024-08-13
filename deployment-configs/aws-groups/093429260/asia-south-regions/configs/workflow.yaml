@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: asia-south-093429260
+  generateName: asia-south-093429260-
   namespace: argo
   annotations:
     argocd.argoproj.io/sync-wave: "5"
@@ -9,13 +9,6 @@ metadata:
 spec:
   entrypoint: ztg-deploy
   serviceAccountName: argo-ops-admin
-#  volumes:
-#    - name: config-volume
-#      configMap:
-#        name: cdkconfig-apsouth2-093429260
-#        items:
-#        - key: sample.properties
-#          path: cdk.properties
   templates:
   - name: ztg-deploy
     dag:
@@ -45,7 +38,6 @@ spec:
         - name: send-notification
           template: gen-random-int
           depends: "cdk-deployer"
-
   - name: cdk-deploy
     inputs:
       parameters:
@@ -54,18 +46,13 @@ spec:
       image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
       command: [bash]
       source: |
-        cat /etc/cdk/config/config.yaml
-      envFrom:
-        configMapRef:
-          name: {{inputs.parameters.cmname}}
-
+        cat /etc/hosts
   - name: gen-random-int
     script:
       image: debian:9.4
       command: [bash]
       source: |
         cat /dev/urandom | od -N2 -An -i | awk -v f=1 -v r=100 '{printf "%i\n", f + r * $1 / 65536}'
-
   - name: print-message
     inputs:
       parameters:

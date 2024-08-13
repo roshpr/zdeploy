@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ztg-useast1
+  name: ztg-asia-south
   namespace: argocd
 spec:
   destination:
@@ -9,6 +9,6 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: argocd/group-a/configs
+    path: deployment-configs/aws-groups/093429260/asia-south-regions/configs
     repoURL: https://github.com/roshpr/zdeploy.git
     targetRevision: HEAD
