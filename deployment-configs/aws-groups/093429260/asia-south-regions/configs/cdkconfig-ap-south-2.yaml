@@ -7,7 +7,7 @@ data:
       Type:  DEV    # DEV, PROD
       Account: '093529260'
       Region: 'eu-central-1'
-      LogLevel: DEBUG
+      LogLevel: INFO
       LogRetention: ONE_WEEK
       ZSClouds:
         # - "zspreview"
