@@ -9,6 +9,6 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: deployment-configs/aws-groups/093429260/asia-south-regions/configs
+    path: deployment-configs/aws-groups/093429260/asia-south-regions/configs-ap-south-2
     repoURL: https://github.com/roshpr/zdeploy.git
     targetRevision: HEAD
