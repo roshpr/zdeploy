@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ztg-ap-south-2
+  namespace: argocd
+spec:
+  destination:
+    namespace: ztg
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: deployment-configs/aws-groups/093429260/asia-south-regions/configs
+    repoURL: https://github.com/roshpr/zdeploy.git
+    targetRevision: HEAD

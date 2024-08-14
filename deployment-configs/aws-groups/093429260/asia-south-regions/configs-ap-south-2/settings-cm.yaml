@@ -5,7 +5,7 @@ metadata:
   namespace: argo
 data:
   settings.yaml: |
-    release_version: "0.2.0"
+    release_version: "1.2.0"
     cdk_pkg_location: "https://ec.repository.zscaler.com"
     deployment_plane: "control_plane"
     other_configs:

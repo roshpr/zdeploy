@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: ap-southeast-1-093429260-
+  generateName: ap-south-2-093429260-
   namespace: argo
   annotations:
     argocd.argoproj.io/sync-wave: "5"

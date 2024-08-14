@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ztg-asia-south
+  name: ztg-ap-southeast-1
   namespace: argocd
 spec:
   destination:
