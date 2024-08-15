@@ -74,6 +74,7 @@ spec:
       volumeMounts:
         - name: configyaml
           mountPath: /etc/zdeploy/config.yaml
+          subPath: config.yaml
   - name: gen-random-int
     script:
       image: debian:9.4
