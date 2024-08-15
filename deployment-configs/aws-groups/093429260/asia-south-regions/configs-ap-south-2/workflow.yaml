@@ -71,6 +71,9 @@ spec:
       source: |
         cat /etc/hosts
         cat /etc/zdeploy/config.yaml
+      envFrom:
+        - secretRef:
+            name: ap-south-2-secret-093429260
       volumeMounts:
         - name: configyaml
           mountPath: /etc/zdeploy/config.yaml
@@ -89,13 +92,13 @@ spec:
       - name: configyaml
         configMap:
           name: cdkconfig-apsouth2-093429260
-    container:
+    script:
       image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
       command: [bash]
       source: |
         echo "{{inputs.parameters.message}}"
         cat /etc/zdeploy/config.yaml
-        sleep 100
+        sleep 10
       volumeMounts:
         - name: configyaml
           mountPath: /etc/zdeploy/config.yaml
