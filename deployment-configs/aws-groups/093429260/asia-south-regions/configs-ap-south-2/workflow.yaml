@@ -87,5 +87,5 @@ spec:
         echo "{{inputs.parameters.message}}"
       volumeMounts:
         - name: mapconfig
-          mountPath: /opt/jdeployer/deployments/external_config.yaml
-          subPath: external_config.yaml        
+          mountPath: /etc/zdeploy/config.yaml
+          subPath: config.yaml
