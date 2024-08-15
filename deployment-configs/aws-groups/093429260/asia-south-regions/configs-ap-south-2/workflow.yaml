@@ -86,6 +86,7 @@ spec:
       source: |
         echo "{{inputs.parameters.message}}"
         cat /etc/zdeploy/config.yaml
+        sleep 100
       volumeMounts:
         - name: configyaml
           mountPath: /etc/zdeploy/config.yaml
