@@ -61,11 +61,19 @@ spec:
     inputs:
       parameters:
         - name: cmname
+    volumes:
+      - name: configyaml
+        configMap:
+          name: cdkconfig-apsouth2-093429260
     script:
       image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
       command: [bash]
       source: |
         cat /etc/hosts
+        cat /etc/zdeploy/config.yaml
+      volumeMounts:
+        - name: configyaml
+          mountPath: /etc/zdeploy/config.yaml
   - name: gen-random-int
     script:
       image: debian:9.4
