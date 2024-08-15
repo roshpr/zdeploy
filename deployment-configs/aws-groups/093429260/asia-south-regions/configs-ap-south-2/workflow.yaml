@@ -28,9 +28,10 @@ spec:
             parameters: [ { name: message, value: 'CDK zip downloaded' } ]
         - name: deployment-approval
           template: approval
+          depends: "config-preview"
         - name: cdk-deployer-0
           template: cdk-deploy
-          depends: "config-preview"
+          depends: "deployment-approval"
           when: '{{tasks.deployment-approval.outputs.parameters.approve}} == YES'
           arguments:
             parameters: [ { name: cmname, value: 'asia-south-093429260' } ]
