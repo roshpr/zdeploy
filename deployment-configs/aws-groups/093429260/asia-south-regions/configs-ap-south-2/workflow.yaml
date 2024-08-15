@@ -85,6 +85,7 @@ spec:
       command: [bash]
       source: |
         echo "{{inputs.parameters.message}}"
+        cat /etc/zdeploy/config.yaml
       volumeMounts:
         - name: configyaml
           mountPath: /etc/zdeploy/config.yaml
