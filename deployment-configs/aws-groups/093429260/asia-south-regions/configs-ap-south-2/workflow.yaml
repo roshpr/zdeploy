@@ -86,6 +86,6 @@ spec:
       source: |
         echo "{{inputs.parameters.message}}"
       volumeMounts:
-        - name: mapconfig
+        - name: configyaml
           mountPath: /etc/zdeploy/config.yaml
           subPath: config.yaml
