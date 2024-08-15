@@ -75,8 +75,16 @@ spec:
     inputs:
       parameters:
         - name: message
+    volumes:
+      - name: configyaml
+        configMap:
+          name: cdkconfig-apsouth2-093429260
     container:
       image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
       command: [bash]
       source: |
         echo "{{inputs.parameters.message}}"
+      volumeMounts:
+        - name: mapconfig
+          mountPath: /opt/jdeployer/deployments/external_config.yaml
+          subPath: external_config.yaml        
