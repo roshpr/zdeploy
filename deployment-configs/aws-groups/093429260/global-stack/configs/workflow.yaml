@@ -1,0 +1,82 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: ap-southeast-1-093429260-
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/hook: PostSync
+spec:
+  entrypoint: ztg-deploy
+  serviceAccountName: argo-ops-admin
+  templates:
+  - name: ztg-deploy
+    dag:
+      tasks:
+        - name: validate-config-0
+          template: print-message
+          arguments:
+            parameters: [ { name: message, value: 'Config validated' } ]
+        - name: prepare-environment-0
+          template: print-message
+          arguments:
+            parameters: [ { name: message, value: 'Preparing the setup.\n Successfully completed the env setup.' } ]
+        - name: config-preview
+          template: print-message
+          depends: "validate-config-0 && prepare-environment-0"
+          arguments:
+            parameters: [ { name: message, value: 'CDK zip downloaded' } ]
+        - name: deployment-approval
+          template: approval
+        - name: cdk-deployer-0
+          template: cdk-deploy
+          depends: "config-preview"
+          when: '{{tasks.deployment-approval.outputs.parameters.approve}} == YES'
+          arguments:
+            parameters: [ { name: cmname, value: 'asia-south-093429260' } ]
+        - name: test-application-0
+          template: gen-random-int
+          depends: "cdk-deployer-0"
+        - name: send-notification-0
+          template: gen-random-int
+          depends: "cdk-deployer-0"
+  - name: approval
+    suspend: {}
+    inputs:
+        parameters:
+          - name: approve
+            default: 'NO'
+            enum:
+                - 'YES'
+                - 'NO'
+            description: >-
+              Choose YES to continue workflow and deploy to production
+    outputs:
+        parameters:
+          - name: approve
+            valueFrom:
+                supplied: {}
+  - name: cdk-deploy
+    inputs:
+      parameters:
+        - name: cmname
+    script:
+      image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
+      command: [bash]
+      source: |
+        cat /etc/hosts
+  - name: gen-random-int
+    script:
+      image: debian:9.4
+      command: [bash]
+      source: |
+        cat /dev/urandom | od -N2 -An -i | awk -v f=1 -v r=100 '{printf "%i\n", f + r * $1 / 65536}'
+  - name: print-message
+    inputs:
+      parameters:
+        - name: message
+    container:
+      image: 223544365242.dkr.ecr.us-west-2.amazonaws.com/ztw-sre/wds-deploy:v0.0.2
+      command: [bash]
+      source: |
+        echo "{{inputs.parameters.message}}"
